@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function AboutSection() {
   const stats = [
     { number: "10+", label: "국제대회 수상" },
@@ -8,16 +10,32 @@ export default function AboutSection() {
   return (
     <section id="about" className="py-24 md:py-32 px-6">
       <div className="max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          {/* Text */}
+        {/* Section header */}
+        <div className="mb-16 md:mb-20">
+          <p className="text-accent text-sm tracking-[0.2em] uppercase mb-3">
+            About
+          </p>
+          <h2 className="text-3xl md:text-5xl font-bold text-white">
+            임도균
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+          {/* Profile photo */}
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+            <Image
+              src="/works/profile.jpg"
+              alt="임도균 - 아쿠아스케이퍼"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/60 via-transparent to-transparent" />
+          </div>
+
+          {/* Text + Stats */}
           <div>
-            <p className="text-accent text-sm tracking-[0.2em] uppercase mb-3">
-              About
-            </p>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">
-              임도균
-            </h2>
-            <p className="text-muted text-sm mb-8">
+            <p className="text-muted text-sm mb-6">
               Dokyun Lim &middot; 경기도 남양주시, 대한민국
             </p>
             <div className="space-y-4 text-white/70 leading-relaxed">
@@ -38,21 +56,21 @@ export default function AboutSection() {
                 아쿠아스케이핑 신에서 입지를 확고히 했습니다.
               </p>
             </div>
-          </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-6">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="text-center p-6 bg-card-bg border border-card-border rounded-xl"
-              >
-                <p className="text-3xl md:text-4xl font-bold text-accent-light">
-                  {stat.number}
-                </p>
-                <p className="text-muted text-xs mt-2">{stat.label}</p>
-              </div>
-            ))}
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mt-10">
+              {stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="text-center p-5 bg-card-bg border border-card-border rounded-xl"
+                >
+                  <p className="text-2xl md:text-3xl font-bold text-accent-light">
+                    {stat.number}
+                  </p>
+                  <p className="text-muted text-xs mt-2">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
