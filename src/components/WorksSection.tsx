@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { works, type Work } from "@/data/works";
+import Lightbox from "./Lightbox";
 
 function WorkDetail({ work }: { work: Work }) {
   return (
@@ -140,6 +141,10 @@ function WorkDetail({ work }: { work: Work }) {
 
 export default function WorksSection() {
   const [selectedWork, setSelectedWork] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{
+    src: string;
+    alt: string;
+  } | null>(null);
 
   return (
     <section id="works" className="py-24 md:py-32 px-6">
@@ -155,15 +160,14 @@ export default function WorksSection() {
         {/* Works grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {works.map((work) => (
-            <div
-              key={work.id}
-              className="group cursor-pointer"
-              onClick={() =>
-                setSelectedWork(selectedWork === work.id ? null : work.id)
-              }
-            >
-              {/* Image */}
-              <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-card-bg">
+            <div key={work.id}>
+              {/* Image - opens lightbox */}
+              <div
+                className="group relative aspect-[16/9] overflow-hidden rounded-lg bg-card-bg cursor-zoom-in"
+                onClick={() =>
+                  setLightbox({ src: work.image, alt: work.title })
+                }
+              >
                 <Image
                   src={work.image}
                   alt={work.title}
@@ -173,15 +177,36 @@ export default function WorksSection() {
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
 
+                {/* Zoom icon */}
+                <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white/60 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                    <path d="M11 8v6M8 11h6" />
+                  </svg>
+                </div>
+
                 {/* Year badge */}
                 <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white/80 text-xs px-3 py-1 rounded-full">
                   {work.year}
                 </div>
               </div>
 
-              {/* Info */}
-              <div className="mt-4">
-                <h3 className="text-xl md:text-2xl font-semibold text-white group-hover:text-accent-light transition-colors">
+              {/* Info - toggles detail */}
+              <div
+                className="mt-4 cursor-pointer"
+                onClick={() =>
+                  setSelectedWork(selectedWork === work.id ? null : work.id)
+                }
+              >
+                <h3 className="text-xl md:text-2xl font-semibold text-white hover:text-accent-light transition-colors">
                   {work.title}
                 </h3>
                 <p className="text-muted text-sm mt-1">
@@ -196,6 +221,15 @@ export default function WorksSection() {
           ))}
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <Lightbox
+          src={lightbox.src}
+          alt={lightbox.alt}
+          onClose={() => setLightbox(null)}
+        />
+      )}
     </section>
   );
 }

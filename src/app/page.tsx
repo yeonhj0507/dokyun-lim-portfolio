@@ -5,6 +5,7 @@ import AwardsSection from "@/components/AwardsSection";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   return (
@@ -12,10 +13,18 @@ export default function Home() {
       <Navigation />
       <main>
         <Hero />
-        <WorksSection />
-        <AwardsSection />
-        <AboutSection />
-        <ContactSection />
+        <ScrollReveal>
+          <WorksSection />
+        </ScrollReveal>
+        <ScrollReveal>
+          <AwardsSection />
+        </ScrollReveal>
+        <ScrollReveal>
+          <AboutSection />
+        </ScrollReveal>
+        <ScrollReveal>
+          <ContactSection />
+        </ScrollReveal>
       </main>
       <Footer />
     </>
